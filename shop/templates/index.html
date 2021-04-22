@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+    Online Shop
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card-deck mb-3 text-center">
+    {% for item in items %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ item.title }}</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">${{ item.price }} <small class="text-muted">dollars</small></h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                <li>сейчас в наличии</li>
+                <li>более 300 реальных отзывов</li>
+                <li>по вопросам обращаться log1957@bk.ru</li>
+                <li></li>
+                </ul>
+                <a href="{{url_for('payment', id=item.id)}}" type="button" class="btn btn-lg btn-block btn-outline-primary">Buy this product</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -4,6 +4,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from shop.data import db_session
 from shop.user import RegisterForm, LoginForm
 from shop.data.users import User
+from flask_ngrok import run_with_ngrok
 
 
 app = Flask(__name__)
@@ -13,6 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 db = SQLAlchemy(app)
+run_with_ngrok(app)
 
 
 @login_manager.user_loader
@@ -51,12 +53,13 @@ def about():
 
 
 @app.route('/buy/<int:id>')
+@login_required
 def payment(id):
-    item = Item.query.get(id)
-    return f'{item.title} {item.price}'
+    return render_template('buyform.html', id=id)
 
 
 @app.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
     if request.method == 'POST':
         title = request.form['title']
@@ -116,4 +119,5 @@ def login():
 
 if __name__ == '__main__':
     db_session.global_init("db/blogs.db")
-    app.run(debug=True)
+    app.run()
+    run_with_ngrok(app)

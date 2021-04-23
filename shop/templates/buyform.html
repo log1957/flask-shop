@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>покупка товара</h1>
+<form action="" method="post">
+    <h2>Покупка {{ id }}</h2>
+    <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{current_user.email}}">
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Телефон для связи</label>
+        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="8 800 555 35 35">
+    </div>
+</form>
+{% endblock %}

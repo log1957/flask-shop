@@ -63,6 +63,8 @@ def buyform(id):
 @app.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
+    if current_user.id != 1:
+        return index()
     if request.method == 'POST':
         title = request.form['title']
         price = request.form['price']

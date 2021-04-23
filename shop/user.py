@@ -18,3 +18,8 @@ class LoginForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
+
+class BuyForm(FlaskForm):
+    number = StringField('Номер телефона', validators=[DataRequired()])
+    time = StringField('Удобное время звонка (по МСК)')
+    submit = SubmitField('Купить')

@@ -19,7 +19,7 @@
                 <li></li>
                 </ul>
                 {% if current_user.is_authenticated %}
-                    <a href="{{url_for('payment', id=item.id)}}" type="button" class="btn btn-lg btn-block btn-outline-primary">Buy this product</a>
+                    <a href="{{url_for('buyform', id=item.id)}}" type="button" class="btn btn-lg btn-block btn-outline-primary">Buy this product</a>
                 {% else %}
                     <a class="p-2 text-dark" href="{{ url_for('login') }}">Log in</a>
                 {% endif %}

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from shop.data import db_session
-from shop.user import RegisterForm, LoginForm
+from shop.user import RegisterForm, LoginForm, BuyForm
 from shop.data.users import User
 from flask_ngrok import run_with_ngrok
 
@@ -54,8 +54,10 @@ def about():
 
 @app.route('/buy/<int:id>')
 @login_required
-def payment(id):
-    return render_template('buyform.html', id=id)
+def buyform(id):
+    form = BuyForm()
+    item = Item.query.get(id)
+    return render_template('buyform.html', item=item, form=form)
 
 
 @app.route('/create', methods=['GET', 'POST'])

@@ -52,11 +52,16 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/buy/<int:id>')
+@app.route('/buy/<int:id>', methods=['GET', 'POST'])
 @login_required
 def buyform(id):
     form = BuyForm()
     item = Item.query.get(id)
+    if form.validate_on_submit():
+        number = form.number.data
+        time = form.time.data
+        return redirect("/")
+
     return render_template('buyform.html', item=item, form=form)
 
 

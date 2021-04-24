@@ -92,6 +92,24 @@ def create():
         return render_template('create.html')
 
 
+@app.route('/checklist', methods=['GET', 'POST'])
+@login_required
+def checklist():
+    form = BuyForm()
+    numbers = db_session.create_session().query(User2).all()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = User2(
+            number0=form.number.data,
+            time0=form.time.data
+        )
+
+        db_sess.delete(user)
+        db_sess.commit()
+
+    return render_template('checklist.html', form=form, numbers=numbers)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()

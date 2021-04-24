@@ -10,5 +10,8 @@
                 <a class="p-2 text-dark" href="{{ url_for('register') }}">Register</a>
         {% endif %}
     </nav>
-    <a class="btn btn-outline-primary" href="{{ url_for('create') }}">Add product</a>
+    {% if current_user.id == 1 %}
+        <a class="btn btn-outline-primary" href="{{ url_for('create') }}">Add product</a>
+        <a class="btn btn-outline-primary" href="{{ url_for('checklist') }}">Checklist</a>
+    {% endif %}
 </div>

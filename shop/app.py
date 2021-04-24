@@ -4,8 +4,8 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from shop.data import db_session
 from shop.user import RegisterForm, LoginForm, BuyForm
 from shop.data.users import User
+from shop.data.users2 import User2
 from flask_ngrok import run_with_ngrok
-
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -58,8 +58,14 @@ def buyform(id):
     form = BuyForm()
     item = Item.query.get(id)
     if form.validate_on_submit():
-        number = form.number.data
-        time = form.time.data
+        db_sess = db_session.create_session()
+        user = User2(
+            number0=form.number.data,
+            time0=form.time.data
+        )
+
+        db_sess.add(user)
+        db_sess.commit()
         return redirect("/")
 
     return render_template('buyform.html', item=item, form=form)

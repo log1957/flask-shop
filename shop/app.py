@@ -103,7 +103,6 @@ def checklist():
             number0=form.number.data,
             time0=form.time.data
         )
-
         db_sess.delete(user)
         db_sess.commit()
 

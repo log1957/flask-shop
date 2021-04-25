@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from shop.data import db_session
-from shop.user import RegisterForm, LoginForm, BuyForm
+from shop.user import RegisterForm, LoginForm, BuyForm, CheckForm
 from shop.data.users import User
 from shop.data.users2 import User2
 from flask_ngrok import run_with_ngrok
@@ -95,16 +95,17 @@ def create():
 @app.route('/checklist', methods=['GET', 'POST'])
 @login_required
 def checklist():
-    form = BuyForm()
-    numbers = db_session.create_session().query(User2).all()
+    form = CheckForm()
+    db_sess = db_session.create_session()
+    numbers = db_sess.query(User2).all()
     if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        user = User2(
-            number0=form.number.data,
-            time0=form.time.data
-        )
-        db_sess.delete(user)
-        db_sess.commit()
+        for number in numbers:
+            if number.number0 == form.number.data:
+                db_sess.delete(number)
+                db_sess.commit()
+                break
+        #user = Запросом из бд по номеру телефона (form.number.data) получить User2
+        #db_sess.delete(user)
 
     return render_template('checklist.html', form=form, numbers=numbers)
 

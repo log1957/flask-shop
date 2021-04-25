@@ -4,20 +4,28 @@
 <div class="container">
     <div class="card-deck mb-3 text-center">
     {% for number in numbers %}
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">{{ number.number0 }}</h4>
+        <form action="" method="post">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ number.number0 }}</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ number.time0 }} <small class="text-muted"></small></h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                    </ul>
+                </div>
             </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ number.time0 }} <small class="text-muted"></small></h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                </ul>
-                {% if current_user.id == 1 %}
-                    <a type="button" class="btn btn-lg btn-block btn-outline-primary">просмотренно</a>
-                {% endif %}
-            </div>
-        </div>
-    {% endfor %}
+
+        </form>
+        {% endfor %}
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.number.label(class="form-label") }} <br>
+            {{ form.number(class="form-control", type="text", placeholder="88005553535") }}<br>
+
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        </form>
+
     </div>
 </div>
 {% endblock %}

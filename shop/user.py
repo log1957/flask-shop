@@ -23,3 +23,7 @@ class BuyForm(FlaskForm):
     number = StringField('Номер телефона', validators=[DataRequired()])
     time = StringField('Удобное время звонка (по МСК)')
     submit = SubmitField('Купить')
+
+class CheckForm(FlaskForm):
+    number = StringField('просмотренный номер', validators=[DataRequired()])
+    submit = SubmitField('удалить номер')

@@ -4,7 +4,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from shop.data import db_session
 from shop.user import RegisterForm, LoginForm, BuyForm, CheckForm, BlogsForm
 from shop.data.users import User
-from shop.data.users2 import Checklist
+from shop.data.Checklist import Checklist
 from flask_ngrok import run_with_ngrok
 from shop.data.news import News
 
@@ -61,6 +61,17 @@ def news_delete(id):
     if news:
         db_sess.delete(news)
         db_sess.commit()
+
+    return redirect('/')
+
+
+@app.route('/item_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def item_delete(id):
+    item = Item.query.order_by(Item.price).filter(Item.id == id).first()
+    if item:
+        db.session.delete(item)
+        db.session.commit()
 
     return redirect('/')
 

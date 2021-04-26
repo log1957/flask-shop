@@ -4,7 +4,7 @@ from .db_session import SqlAlchemyBase
 from flask_login import UserMixin
 
 
-class User2(SqlAlchemyBase, UserMixin, SerializerMixin):
+class Checklist(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'contacts'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)

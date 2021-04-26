@@ -4,7 +4,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from shop.data import db_session
 from shop.user import RegisterForm, LoginForm, BuyForm, CheckForm
 from shop.data.users import User
-from shop.data.users2 import User2
+from shop.data.users2 import Checklist
 from flask_ngrok import run_with_ngrok
 
 app = Flask(__name__)
@@ -59,7 +59,7 @@ def buyform(id):
     item = Item.query.get(id)
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        user = User2(
+        user = Checklist(
             number0=form.number.data,
             time0=form.time.data
         )
@@ -97,14 +97,14 @@ def create():
 def checklist():
     form = CheckForm()
     db_sess = db_session.create_session()
-    numbers = db_sess.query(User2).all()
+    numbers = db_sess.query(Checklist).all()
     if form.validate_on_submit():
-        for number in numbers:
-            if number.number0 == form.number.data:
-                db_sess.delete(number)
+        for lists in numbers:
+            if lists.number0 == form.number.data:
+                db_sess.delete(lists)
                 db_sess.commit()
                 break
-        #user = Запросом из бд по номеру телефона (form.number.data) получить User2
+        #user = Запросом из бд по номеру телефона (form.number.data) получить
         #db_sess.delete(user)
 
     return render_template('checklist.html', form=form, numbers=numbers)

@@ -27,3 +27,9 @@ class BuyForm(FlaskForm):
 class CheckForm(FlaskForm):
     number = StringField('просмотренный номер', validators=[DataRequired()])
     submit = SubmitField('удалить номер')
+
+
+class BlogsForm(FlaskForm):
+    title = StringField('Заголовок', validators=[DataRequired()])
+    content = TextAreaField("Содержание")
+    submit = SubmitField('Применить')

@@ -1,8 +1,9 @@
 click
 Flask
 Flask-SQLAlchemy
-itsdangerous
-Jinja2
-MarkupSafe
 SQLAlchemy
-Werkzeug
+werkzeug.security
+SQLAlchemy.orm
+SQLAlchemy.ext.declarative
+SQLAlchemy_serializer
+Flask-login

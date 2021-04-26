@@ -1,4 +1,4 @@
 from . import users
-from . import category
-from . import news
 from . import users2
+from . import news
+from . import category

@@ -14,4 +14,3 @@ class User2(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     def __repr__(self):
         return f"<user> {self.id} {self.number} {self.time}"
-

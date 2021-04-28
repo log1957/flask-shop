@@ -2,10 +2,10 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from shop.data import db_session
-from shop.user import RegisterForm, LoginForm, BuyForm, CheckForm
+from shop.user import RegisterForm, LoginForm, BuyForm, CheckForm, BlogsForm
 from shop.data.users import User
-from shop.data.users2 import User2
-from flask_ngrok import run_with_ngrok
+from shop.data.Checklist import Checklist
+from shop.data.news import News
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -14,7 +14,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 db = SQLAlchemy(app)
-run_with_ngrok(app)
 
 
 @login_manager.user_loader
@@ -52,6 +51,29 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def news_delete(id):
+    db_sess = db_session.create_session()
+    news = db_sess.query(News).filter(News.id == id).first()
+    if news:
+        db_sess.delete(news)
+        db_sess.commit()
+
+    return redirect('/')
+
+
+@app.route('/item_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def item_delete(id):
+    item = Item.query.order_by(Item.price).filter(Item.id == id).first()
+    if item:
+        db.session.delete(item)
+        db.session.commit()
+
+    return redirect('/')
+
+
 @app.route('/buy/<int:id>', methods=['GET', 'POST'])
 @login_required
 def buyform(id):
@@ -59,9 +81,10 @@ def buyform(id):
     item = Item.query.get(id)
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        user = User2(
+        user = Checklist(
             number0=form.number.data,
-            time0=form.time.data
+            time0=form.time.data,
+            item_name=item.title
         )
 
         db_sess.add(user)
@@ -69,6 +92,32 @@ def buyform(id):
         return redirect("/")
 
     return render_template('buyform.html', item=item, form=form)
+
+
+@app.route('/blog', methods=['GET', 'POST'])
+def blog():
+    db_sess = db_session.create_session()
+    if db_sess:
+        news = db_sess.query(News)
+    else:
+        news = db_sess.query(News)
+    return render_template('blog.html', news=news)
+
+
+@app.route('/createblog', methods=['GET', 'POST'])
+def createblog():
+    form = BlogsForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        news = News()
+        news.title = form.title.data
+        news.content = form.content.data
+        current_user.news.append(news)
+        db_sess.merge(current_user)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('createblog.html', title='Добавление новости',
+                           form=form)
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -97,14 +146,14 @@ def create():
 def checklist():
     form = CheckForm()
     db_sess = db_session.create_session()
-    numbers = db_sess.query(User2).all()
+    numbers = db_sess.query(Checklist).all()
     if form.validate_on_submit():
-        for number in numbers:
-            if number.number0 == form.number.data:
-                db_sess.delete(number)
+        for lists in numbers:
+            if lists.number0 == form.number.data:
+                db_sess.delete(lists)
                 db_sess.commit()
                 break
-        #user = Запросом из бд по номеру телефона (form.number.data) получить User2
+        #user = Запросом из бд по номеру телефона (form.number.data) получить
         #db_sess.delete(user)
 
     return render_template('checklist.html', form=form, numbers=numbers)
@@ -153,4 +202,3 @@ def login():
 if __name__ == '__main__':
     db_session.global_init("db/blogs.db")
     app.run()
-    run_with_ngrok(app)

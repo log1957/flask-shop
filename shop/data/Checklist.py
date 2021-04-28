@@ -10,7 +10,8 @@ class Checklist(SqlAlchemyBase, UserMixin, SerializerMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     number0 = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     time0 = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    item_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     # text = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return f"<user> {self.id} {self.number} {self.time}"
+        return f"<user> {self.id} {self.number} {self.time} {self.item_name}"

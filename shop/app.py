@@ -85,7 +85,8 @@ def buyform(id):
         db_sess = db_session.create_session()
         user = Checklist(
             number0=form.number.data,
-            time0=form.time.data
+            time0=form.time.data,
+            item_name=item.title
         )
 
         db_sess.add(user)

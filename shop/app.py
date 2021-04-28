@@ -5,7 +5,6 @@ from shop.data import db_session
 from shop.user import RegisterForm, LoginForm, BuyForm, CheckForm, BlogsForm
 from shop.data.users import User
 from shop.data.Checklist import Checklist
-from flask_ngrok import run_with_ngrok
 from shop.data.news import News
 
 app = Flask(__name__)
@@ -15,7 +14,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 db = SQLAlchemy(app)
-run_with_ngrok(app)
 
 
 @login_manager.user_loader
@@ -204,4 +202,3 @@ def login():
 if __name__ == '__main__':
     db_session.global_init("db/blogs.db")
     app.run()
-    run_with_ngrok(app)
